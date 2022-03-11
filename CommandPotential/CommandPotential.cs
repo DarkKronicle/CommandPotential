@@ -121,15 +121,6 @@ namespace CommandPotential
             pickupInfo = created;
         }
 
-        public static void CreateDrop(RoR2.GenericPickupController.CreatePickupInfo pickupInfo) 
-        {
-            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(PickupDropletController.pickupDropletPrefab, pickupInfo.position, Quaternion.identity);
-			PickupDropletController component = gameObject.GetComponent<PickupDropletController>();
-			component.createPickupInfo = pickupInfo;
-			component.NetworkpickupIndex = pickupInfo.pickupIndex;
-			NetworkServer.Spawn(gameObject);
-        }
-
         public static WeightedSelection<RoR2.PickupIndex> CreateSelection(List<PickupIndex> arr)
         {
             WeightedSelection<RoR2.PickupIndex> weight = new WeightedSelection<RoR2.PickupIndex>(8);
