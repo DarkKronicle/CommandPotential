@@ -333,6 +333,5 @@ libs
 bin
 .vs
 obj
-*.csproj
 .vscode
 package
