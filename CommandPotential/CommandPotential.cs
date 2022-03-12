@@ -5,6 +5,10 @@ using RoR2;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using Facepunch.Steamworks;
+using BepInEx.Configuration;
+using System.Reflection;
+using System;
 
 namespace CommandPotential
 {
@@ -20,6 +24,8 @@ namespace CommandPotential
         public const string PluginName = "CommandPotential";
         public const string PluginVersion = "1.0.0";
 
+        public static AssetBundle AssetBundle;
+
         public static WeightedSelection<RoR2.PickupIndex> Tier1 = null;
         public static WeightedSelection<RoR2.PickupIndex> Tier2 = null;
         public static WeightedSelection<RoR2.PickupIndex> Tier3 = null;
@@ -29,19 +35,49 @@ namespace CommandPotential
         public static WeightedSelection<RoR2.PickupIndex> Boss = null;
         public static WeightedSelection<RoR2.PickupIndex> Lunar = null;
         public static WeightedSelection<RoR2.PickupIndex> Equipment = null;
+        public static WeightedSelection<RoR2.PickupIndex> LunarEquipment = null;
         public static GameObject Prefab = null;
+
+
+        public static ConfigEntry<bool> OverrideCommand;
 
 
         public void Awake()
         {
             Log.Init(Logger);
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CommandPotential.commandpotentialbundle"))
+            {
+                AssetBundle = AssetBundle.LoadFromStream(stream);
+                Log.LogInfo(AssetBundle);
+                foreach (string s in AssetBundle.GetAllAssetNames()) {
+                    Log.LogInfo(s);
+                }
+            }
+            InitConfig();
 
             On.RoR2.Artifacts.CommandArtifactManager.OnDropletHitGroundServer += CommandOveride;
+            On.RoR2.Run.Start += (orig, self) => {
+                orig(self);
+                SetupSelections();
+            };
+
+            new InfluenceArtifact();
 
             Log.LogInfo(nameof(Awake) + " done.");
         }
 
-        public static void SetupSelections() {
+        public void InitConfig()
+        {
+            OverrideCommand = Config.Bind(
+                "Settings",
+                "OverrideCommand",
+                false,
+                "If enabled it will override the command artifact instead of creating a new one and make this work server-side."
+            );
+        }
+
+        public static void SetupSelections() 
+        {
             Tier1 = CreateSelection(RoR2.Run.instance.availableTier1DropList);
             Tier2 = CreateSelection(RoR2.Run.instance.availableTier2DropList);
             Tier3 = CreateSelection(RoR2.Run.instance.availableTier3DropList);
@@ -51,6 +87,7 @@ namespace CommandPotential
             Boss = CreateSelection(RoR2.Run.instance.availableBossDropList);
             Lunar = CreateSelection(RoR2.Run.instance.availableLunarItemDropList);
             Equipment = CreateSelection(RoR2.Run.instance.availableEquipmentDropList);
+            LunarEquipment = CreateSelection(RoR2.Run.instance.availableLunarEquipmentDropList);
             Prefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/OptionPickup");
         }
 
@@ -60,65 +97,12 @@ namespace CommandPotential
             ref bool shouldSpawn
         ) 
         {
-            if (Tier1 == null)
+            if (!OverrideCommand.Value || !InfluenceArtifact.InfluenceDroplet(ref pickupInfo, ref shouldSpawn))
             {
-                // Check to make sure everything is loaded in
-                // TODO Make this check happen with `get`
-                SetupSelections();
+                orig(ref pickupInfo, ref shouldSpawn);
+                return;
             }
-			PickupIndex pickupIndex = pickupInfo.pickupIndex;
-			PickupDef pickupDef = PickupCatalog.GetPickupDef(pickupIndex);
-			if (pickupDef == null || (pickupDef.itemIndex == ItemIndex.None && pickupDef.equipmentIndex == EquipmentIndex.None && pickupDef.itemTier == ItemTier.NoTier))
-			{
-				return;
-			}
-            Xoroshiro128Plus rng = new Xoroshiro128Plus((ulong)Run.instance.stageRng.nextUint);
 
-            ItemTier tier = pickupDef.itemTier;
-            WeightedSelection<RoR2.PickupIndex> list = null;
-            switch (tier)
-            {
-                case ItemTier.Tier1:
-                    list = Tier1;
-                    break;
-                case ItemTier.Tier2:
-                    list = Tier2;
-                    break;
-                case ItemTier.Tier3:
-                    list = Tier3;
-                    break;
-                case ItemTier.Boss:
-                    list = Boss;
-                    break;
-                case ItemTier.Lunar:
-                    list = Lunar;
-                    break;
-                case ItemTier.NoTier:
-                    list = Equipment;
-                    break;
-                case ItemTier.VoidTier1:
-                    list = Void1;
-                    break;
-                case ItemTier.VoidTier2:
-                    list = Void2;
-                    break;
-                case ItemTier.VoidTier3:
-                    list = Void2;
-                    break;
-                default:
-                    orig(ref pickupInfo, ref shouldSpawn);
-                    return;
-            }
-            RoR2.GenericPickupController.CreatePickupInfo created = new RoR2.GenericPickupController.CreatePickupInfo {
-			    pickerOptions = RoR2.PickupPickerController.GenerateOptionsFromArray(
-                    RoR2.PickupDropTable.GenerateUniqueDropsFromWeightedSelection(3, rng, list)
-                ),
-				prefabOverride = Prefab,
-				position = pickupInfo.position,
-				rotation = Quaternion.identity,
-				pickupIndex = RoR2.PickupCatalog.FindPickupIndex(tier)
-			};
-            pickupInfo = created;
         }
 
         public static WeightedSelection<RoR2.PickupIndex> CreateSelection(List<PickupIndex> arr)

@@ -335,3 +335,4 @@ bin
 obj
 *.csproj
 .vscode
+package
