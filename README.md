@@ -8,6 +8,11 @@ More features are planned with a configuration file.
 
 ## Changelog
 
+**1.3.0**
+
+* Addings lots of configuration options to determine how many items show per tier, disabling them, or having them be like Command items.
+* Fixing bug where in Void Fields where the items wouldn't spawn correctly.
+
 **1.2.0**
 
 * Artifact of Influence
