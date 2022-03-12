@@ -32,7 +32,7 @@ namespace CommandPotential
 
         public static void OnDropletHitGroundServer(ref GenericPickupController.CreatePickupInfo createPickupInfo, ref bool shouldSpawn)
         {
-            if (CommandPotential.OverrideCommand.Value)
+            if (CommandPotential.OverrideCommand.Value || !RunArtifactManager.instance.IsArtifactEnabled(Artifact.artifactIndex))
             {
                 return;
             }

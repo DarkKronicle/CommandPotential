@@ -1,12 +1,16 @@
 # CommandPotential
 
-Overrides Command Artifact and replaces dropped items with an option of 3 items.
+Adds a new artifact that drops void potential instead of items.
 
-This mod is server-side and vanilla compatible. Your friends do not need to install this mod if you are hosting the game.
+This mod is server-side and vanilla compatible if you enable Command Override in the configuration. Your friends do not need to install this mod if you are hosting the game and have this option enabled. 
 
 More features are planned with a configuration file.
 
 ## Changelog
+
+**1.2.0**
+
+* Artifact of Influence
 
 **1.1.1**
 
