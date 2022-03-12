@@ -72,7 +72,7 @@ namespace CommandPotential
                 "Settings",
                 "OverrideCommand",
                 false,
-                "If enabled it will override the command artifact instead of creating a new one and make this work server-side."
+                "DOES NOT WORK AT THE MOMENT. If enabled it will override the command artifact instead of creating a new one and make this work server-side."
             );
         }
 

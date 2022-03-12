@@ -14,10 +14,7 @@ namespace CommandPotential
         
         public InfluenceArtifact()
         {
-            if (CommandPotential.OverrideCommand.Value)
-            {
-                return;
-            }
+            return;
 
             LanguageAPI.Add("COMMANDPOTENTIAL_INFLUENCE_NAME", "Artifact of Influence");
             LanguageAPI.Add("COMMANDPOTENTIAL_INFLUENCE_DESC", "Items are replaced with Void Potential.");
