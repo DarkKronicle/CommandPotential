@@ -8,6 +8,10 @@ More features are planned with a configuration file.
 
 ## Changelog
 
+**1.1.1**
+
+* Loads again
+
 **1.1.0**
 
 * Making it so that the shown item is always first in the selection
