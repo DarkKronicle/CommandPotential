@@ -22,7 +22,7 @@ namespace CommandPotential
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "DarkKronicle";
         public const string PluginName = "CommandPotential";
-        public const string PluginVersion = "1.1.1";
+        public const string PluginVersion = "1.0.0";
 
         public static AssetBundle AssetBundle;
 
@@ -72,7 +72,7 @@ namespace CommandPotential
                 "Settings",
                 "OverrideCommand",
                 false,
-                "DOES NOT WORK AT THE MOMENT. If enabled it will override the command artifact instead of creating a new one and make this work server-side."
+                "If enabled it will override the command artifact instead of creating a new one and make this work server-side."
             );
         }
 
@@ -97,8 +97,7 @@ namespace CommandPotential
             ref bool shouldSpawn
         ) 
         {
-            // !OverrideCommand.Value || 
-            if (!InfluenceArtifact.InfluenceDroplet(ref pickupInfo, ref shouldSpawn))
+            if (!OverrideCommand.Value || !InfluenceArtifact.InfluenceDroplet(ref pickupInfo, ref shouldSpawn))
             {
                 orig(ref pickupInfo, ref shouldSpawn);
                 return;

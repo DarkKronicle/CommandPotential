@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 3401581194
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: commandpotentialbundle
+      Dependencies: {}

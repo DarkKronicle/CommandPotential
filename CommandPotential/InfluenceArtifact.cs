@@ -14,8 +14,6 @@ namespace CommandPotential
         
         public InfluenceArtifact()
         {
-            return;
-
             LanguageAPI.Add("COMMANDPOTENTIAL_INFLUENCE_NAME", "Artifact of Influence");
             LanguageAPI.Add("COMMANDPOTENTIAL_INFLUENCE_DESC", "Items are replaced with Void Potential.");
 
@@ -23,8 +21,8 @@ namespace CommandPotential
             Artifact.cachedName = "ArtifactOfInfluence";
             Artifact.nameToken = "COMMANDPOTENTIAL_INFLUENCE_NAME";
             Artifact.descriptionToken = "COMMANDPOTENTIAL_INFLUENCE_DESC";
-            Artifact.smallIconSelectedSprite = CommandPotential.AssetBundle.LoadAsset<Sprite>("Assets/Resources/texInfluenceEnabled.png");
-            Artifact.smallIconDeselectedSprite = CommandPotential.AssetBundle.LoadAsset<Sprite>("Assets/Resources/texInfluenceDisabled.png");
+            Artifact.smallIconSelectedSprite = CommandPotential.AssetBundle.LoadAsset<Sprite>("texInfluenceEnabled.png");
+            Artifact.smallIconDeselectedSprite = CommandPotential.AssetBundle.LoadAsset<Sprite>("texInfluenceDisabled.png");
             if (!CommandPotential.OverrideCommand.Value)
             {
                 ContentAddition.AddArtifactDef(Artifact);
