@@ -87,7 +87,7 @@ namespace CommandPotential
                     list = CommandPotential.Void2;
                     break;
                 case ItemTier.VoidTier3:
-                    list = CommandPotential.Void2;
+                    list = CommandPotential.Void3;
                     break;
                 default:
                     return false;
