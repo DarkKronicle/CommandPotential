@@ -8,6 +8,10 @@ More features are planned with a configuration file.
 
 ## Changelog
 
+**1.3.1**
+
+* Fixing Command not working at all and some other weird conditionals
+
 **1.3.0**
 
 * Addings lots of configuration options to determine how many items show per tier, disabling them, or having them be like Command items.

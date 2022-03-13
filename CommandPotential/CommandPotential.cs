@@ -3,12 +3,7 @@ using R2API;
 using R2API.Utils;
 using RoR2;
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Networking;
-using Facepunch.Steamworks;
-using BepInEx.Configuration;
 using System.Reflection;
-using System;
 
 namespace CommandPotential
 {
@@ -22,7 +17,7 @@ namespace CommandPotential
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "DarkKronicle";
         public const string PluginName = "CommandPotential";
-        public const string PluginVersion = "1.3.0";
+        public const string PluginVersion = "1.3.1";
 
 
         public void Awake()
@@ -135,10 +130,12 @@ namespace CommandPotential
             ref bool shouldSpawn
         ) 
         {
-            if (!Storage.OverrideCommand.Value || !InfluenceArtifact.InfluenceDroplet(ref pickupInfo, ref shouldSpawn))
+            if (!Storage.OverrideCommand.Value)
             {
+                orig(ref pickupInfo, ref shouldSpawn);
                 return;
             }
+            InfluenceArtifact.InfluenceDroplet(ref pickupInfo, ref shouldSpawn);
         }
 
         public static void CommandSpawnOverride(
@@ -147,6 +144,11 @@ namespace CommandPotential
             DirectorCardCategorySelection dccs
         ) 
         {
+            if (!Storage.OverrideCommand.Value && !RunArtifactManager.instance.IsArtifactEnabled(InfluenceArtifact.Artifact.artifactIndex))
+            {
+                orig(sceneDirector, dccs);
+                return;
+            }
             if (!Storage.SpawnMultiShops.Value) 
             {
                 orig(sceneDirector, dccs);

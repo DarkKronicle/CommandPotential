@@ -44,7 +44,7 @@ namespace CommandPotential
 
         public static void OnGenerateInteractableCardSelection(SceneDirector sceneDirector, DirectorCardCategorySelection dccs) 
         {
-            if (!Storage.SpawnMultiShops.Value) 
+            if (RunArtifactManager.instance.IsArtifactEnabled(Artifact.artifactIndex) && !Storage.SpawnMultiShops.Value) 
             {
                 CommandArtifactManager.OnGenerateInteractableCardSelection(sceneDirector, dccs);
             }
