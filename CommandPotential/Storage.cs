@@ -29,17 +29,84 @@ namespace CommandPotential
         public static ConfigEntry<bool> EnabledInBazaar;
         public static ConfigEntry<bool> SpawnMultiShops;
 
-        public static ConfigEntry<int> Tier1Options;
-        public static ConfigEntry<int> Tier2Options;
-        public static ConfigEntry<int> Tier3Options;
-        public static ConfigEntry<int> Void1Options;
-        public static ConfigEntry<int> Void2Options;
-        public static ConfigEntry<int> Void3Options;
-        public static ConfigEntry<int> BossOptions;
-        public static ConfigEntry<int> LunarOptions;
-        public static ConfigEntry<int> EquipmentOptions;
-        public static ConfigEntry<int> LunarEquipmentOptions;
+        public static ConfigEntry<string> Tier1OptionsConfig;
+        public static ConfigEntry<string> Tier2OptionsConfig;
+        public static ConfigEntry<string> Tier3OptionsConfig;
+        public static ConfigEntry<string> Void1OptionsConfig;
+        public static ConfigEntry<string> Void2OptionsConfig;
+        public static ConfigEntry<string> Void3OptionsConfig;
+        public static ConfigEntry<string> BossOptionsConfig;
+        public static ConfigEntry<string> LunarOptionsConfig;
+        public static ConfigEntry<string> EquipmentOptionsConfig;
+        public static ConfigEntry<string> LunarEquipmentOptionsConfig;
+
+        public static WeightedSelection<int> Tier1Options;
+        public static WeightedSelection<int> Tier2Options;
+        public static WeightedSelection<int> Tier3Options;
+        public static WeightedSelection<int> Void1Options;
+        public static WeightedSelection<int> Void2Options;
+        public static WeightedSelection<int> Void3Options;
+        public static WeightedSelection<int> BossOptions;
+        public static WeightedSelection<int> LunarOptions;
+        public static WeightedSelection<int> EquipmentOptions;
+        public static WeightedSelection<int> LunarEquipmentOptions;
         
+
+        public static void InitConfig()
+        {
+            SetupOptions();
+        }
+
+        public static void SetupOptions()
+        {
+            Tier1Options = SelectionFromString(Tier1OptionsConfig.Value);
+            Tier2Options = SelectionFromString(Tier2OptionsConfig.Value);
+            Tier3Options = SelectionFromString(Tier3OptionsConfig.Value);
+            Void1Options = SelectionFromString(Void1OptionsConfig.Value);
+            Void2Options = SelectionFromString(Void2OptionsConfig.Value);
+            Void3Options = SelectionFromString(Void3OptionsConfig.Value);
+            BossOptions = SelectionFromString(BossOptionsConfig.Value);
+            LunarOptions = SelectionFromString(LunarOptionsConfig.Value);
+            EquipmentOptions = SelectionFromString(EquipmentOptionsConfig.Value);
+            LunarEquipmentOptions = SelectionFromString(LunarEquipmentOptionsConfig.Value);
+        }
+
+        public static WeightedSelection<int> SelectionFromString(string input)
+        {
+            string[] values = input.Split(',');
+            WeightedSelection<int> sel = new WeightedSelection<int>(8);
+            foreach (string s in values)
+            {
+                string[] options = s.Split('|');
+                if (options.Length > 1)
+                {
+                    try 
+                    {
+                        int num1 = int.Parse(options[0]);
+                        float num2 = float.Parse(options[1]);
+                        sel.AddChoice(num1, num2);
+                    } catch (FormatException) {
+                        Log.LogError("Invalid Config! Configuration option " + s + " in " + input + " is not a valid weight!");
+                        continue;
+                    }
+                } 
+                else
+                {
+                    try 
+                    {
+                        sel.AddChoice(int.Parse(options[0]), 1);
+                    } catch (FormatException) {
+                        Log.LogError("Invalid Config! Configuration option " + s + " in " + input + " is not a valid weight!");
+                        continue;
+                    }
+                }
+            }
+            if (sel.Count == 0)
+            {
+                sel.AddChoice(3, 1);
+            }
+            return sel;
+        }
 
         public static void SetupSelections() 
         {

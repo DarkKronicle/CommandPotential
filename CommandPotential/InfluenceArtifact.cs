@@ -64,14 +64,19 @@ namespace CommandPotential
 			{
 				return true;
 			}
-            Xoroshiro128Plus rng = new Xoroshiro128Plus((ulong)Run.instance.stageRng.nextUint);
 
+            if (ItemUtil.IsItemScrap(pickupIndex))
+            {
+                return false;
+            }
+
+            Xoroshiro128Plus rng = new Xoroshiro128Plus((ulong)Run.instance.stageRng.nextUint);
             ItemTier tier = pickupDef.itemTier;
             WeightedSelection<RoR2.PickupIndex> list = ItemUtil.GetItemsFromIndex(pickupIndex);
 
             int amount = ItemUtil.GetAmountFromIndex(pickupIndex);
 
-            if (amount < 1)
+            if (amount <= 1)
             {
                 return false;
             }

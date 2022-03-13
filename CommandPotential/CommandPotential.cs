@@ -17,7 +17,7 @@ namespace CommandPotential
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "DarkKronicle";
         public const string PluginName = "CommandPotential";
-        public const string PluginVersion = "1.3.1";
+        public const string PluginVersion = "1.3.2";
 
 
         public void Awake()
@@ -61,66 +61,89 @@ namespace CommandPotential
                 true,
                 "Allows MultiShops, scrappers, and printers to spawn when artifact is enabled. If disabled, interactable spawning works like Command."
             );
-            Storage.Tier1Options = Config.Bind(
+            Storage.Tier1OptionsConfig = Config.Bind(
                 "Settings",
                 "Common Options",
-                3,
-                "Amount of options that display in a common Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                "3",
+                "Amount of options that display in a common Void Potential. If 1 it shows the normal item, if over 1000 it's a command item." 
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.Tier2Options = Config.Bind(
+            Storage.Tier2OptionsConfig = Config.Bind(
                 "Settings",
                 "Uncommon Options",
-                3,
+                "3",
                 "Amount of options that display in an uncommon Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.Tier3Options = Config.Bind(
+            Storage.Tier3OptionsConfig = Config.Bind(
                 "Settings",
                 "Legendary Options",
-                3,
+                "3",
                 "Amount of options that display in a legendary Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.BossOptions = Config.Bind(
+            Storage.BossOptionsConfig = Config.Bind(
                 "Settings",
                 "Boss Options",
-                3,
+                "3",
                 "Amount of options that display in a boss Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.Void1Options = Config.Bind(
+            Storage.Void1OptionsConfig = Config.Bind(
                 "Settings",
                 "Void Common Options",
-                3,
+                "3",
                 "Amount of options that display in a common Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.Void2Options = Config.Bind(
+            Storage.Void2OptionsConfig = Config.Bind(
                 "Settings",
                 "Void Uncommon Options",
-                3,
+                "3",
                 "Amount of options that display in an uncommon Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.Void3Options = Config.Bind(
+            Storage.Void3OptionsConfig = Config.Bind(
                 "Settings",
                 "Void Legendary Options",
-                3,
+                "3",
                 "Amount of options that display in a legendary Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.EquipmentOptions = Config.Bind(
+            Storage.EquipmentOptionsConfig = Config.Bind(
                 "Settings",
                 "Equipment Options",
-                3,
+                "3",
                 "Amount of options that display in an equipment Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.LunarEquipmentOptions = Config.Bind(
+            Storage.LunarEquipmentOptionsConfig = Config.Bind(
                 "Settings",
                 "Lunar Equipment Options",
-                3,
+                "3",
                 "Amount of options that display in a lunar equipment Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
-            Storage.LunarOptions = Config.Bind(
+            Storage.LunarOptionsConfig = Config.Bind(
                 "Settings",
                 "Lunar Options",
-                3,
+                "3",
                 "Amount of options that display in a lunar item Void Potential. If 1 it shows the normal item, if over 1000 it's a command item."
+                + " You can supply multiple options that will be selected randomly. Use syntax `<options>|<weight>,<options>|weight>...` (i.e. "
+                + "1|80,2|20 - This will have 80% chance for 1 item, 20% chance for 2.)"
             );
+
+
+            Storage.InitConfig();
         }
 
 

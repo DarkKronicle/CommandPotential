@@ -8,6 +8,10 @@ More features are planned with a configuration file.
 
 ## Changelog
 
+**1.3.2**
+
+* Adding more configuration and fixing item scrappers giving void potentials
+
 **1.3.1**
 
 * Fixing Command not working at all and some other weird conditionals

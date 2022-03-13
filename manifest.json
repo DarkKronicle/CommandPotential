@@ -1,6 +1,6 @@
 ﻿{
 	"name": "CommandPotential",
-	"version_number": "1.3.1",
+	"version_number": "1.3.2",
 	"website_url": "https://github.com/DarkKronicle/CommandPotential",
 	"description": "Adds a new artifact, or overrides Command, to have items be Void Potentials",
 	"dependencies": [
