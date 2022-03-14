@@ -8,6 +8,10 @@ More features are planned with a configuration file.
 
 ## Changelog
 
+**1.3.3**
+
+* Adding correct dependencies
+
 **1.3.2**
 
 * Adding more configuration and fixing item scrappers giving void potentials
