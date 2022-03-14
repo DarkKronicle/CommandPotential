@@ -1,6 +1,6 @@
 # CommandPotential
 
-[![Discord Badge](https://img.shields.io/discord/753693459369427044?color=000000&label=Discord&logo=Discord&style=for-the-badge)](https://discord.gg/WnaE3uZxDA)
+[![Discord Badge](https://img.shields.io/discord/753693459369427044?color=000000&label=Discord&logo=Discord&style=for-the-badge)](https://darkkronicle.com/link/discord)
 
 Adds a new artifact that drops void potential instead of items.
 
