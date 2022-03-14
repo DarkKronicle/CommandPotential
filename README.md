@@ -1,10 +1,12 @@
 # CommandPotential
 
+[![Discord Badge](https://img.shields.io/discord/753693459369427044?color=000000&label=Discord&logo=Discord&style=for-the-badge)](https://discord.gg/WnaE3uZxDA)
+
 Adds a new artifact that drops void potential instead of items.
 
 This mod is server-side and vanilla compatible if you enable Command Override in the configuration. Your friends do not need to install this mod if you are hosting the game and have this option enabled. 
 
-More features are planned with a configuration file.
+Issues? Go to the [Issue Tracker](https://github.com/DarkKronicle/CommandPotential/issues). More questions? Join the [Discord](https://darkkronicle.com/link/discord).
 
 ## Changelog
 
