@@ -10,6 +10,10 @@ Issues? Go to the [Issue Tracker](https://github.com/DarkKronicle/CommandPotenti
 
 ## Changelog
 
+**1.4.0**
+
+* Printers do not summon void potentials
+
 **1.3.3**
 
 * Adding correct dependencies

@@ -17,7 +17,7 @@ namespace CommandPotential
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "DarkKronicle";
         public const string PluginName = "CommandPotential";
-        public const string PluginVersion = "1.3.3";
+        public const string PluginVersion = "1.4.0";
 
 
         public void Awake()
@@ -31,6 +31,7 @@ namespace CommandPotential
 
             On.RoR2.Artifacts.CommandArtifactManager.OnDropletHitGroundServer += CommandOveride;
             On.RoR2.Artifacts.CommandArtifactManager.OnGenerateInteractableCardSelection += CommandSpawnOverride;
+            On.RoR2.ShopTerminalBehavior.DropPickup += OverrideDropPickup;
             On.RoR2.Run.Start += (orig, self) => {
                 orig(self);
                 Storage.SetupSelections();
@@ -60,6 +61,12 @@ namespace CommandPotential
                 "SpawnMultiShops",
                 true,
                 "Allows MultiShops, scrappers, and printers to spawn when artifact is enabled. If disabled, interactable spawning works like Command."
+            );
+            Storage.PrintersOnlyDropOne = Config.Bind(
+                "Settings",
+                "PrintersOnlyDropOne",
+                true,
+                "Makes it so void potential cannot be dropped from printers."
             );
             Storage.Tier1OptionsConfig = Config.Bind(
                 "Settings",
@@ -144,6 +151,30 @@ namespace CommandPotential
 
 
             Storage.InitConfig();
+        }
+
+
+        // Based off of https://github.com/FunkFrog/ShareSuite/blob/master/ShareSuite/ItemSharingHooks.cs#L228
+        // Under GPL-v3
+        public static void OverrideDropPickup(
+            On.RoR2.ShopTerminalBehavior.orig_DropPickup orig,
+            ShopTerminalBehavior self
+        )
+        {
+            CostTypeIndex costType = self.GetComponent<PurchaseInteraction>().costType;
+            if (!Storage.PrintersOnlyDropOne.Value || !Storage.PrinterObjects.Contains(costType) || !InfluenceArtifact.IsOn())
+            {
+                orig(self);
+                return;
+            }
+            self.SetHasBeenPurchased(true);
+            var baseObj = (Component) self;
+            PickupDropletController.CreatePickupDroplet(new GenericPickupController.CreatePickupInfo
+			    {
+				    rotation = Quaternion.identity,
+				    pickupIndex = self.pickupIndex,
+                    prefabOverride = Storage.Garbage,
+			},  (self.dropTransform ? self.dropTransform : baseObj.transform).position, baseObj.transform.TransformVector(self.dropVelocity));
         }
 
 

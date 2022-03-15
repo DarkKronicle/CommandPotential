@@ -50,8 +50,21 @@ namespace CommandPotential
             }
         }
 
+        public static bool IsOn()
+        {
+            return 
+            (Storage.OverrideCommand.Value && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.Command.artifactIndex))
+            ||
+            (!Storage.OverrideCommand.Value && RunArtifactManager.instance.IsArtifactEnabled(Artifact.artifactIndex));
+        }
+
         public static bool InfluenceDroplet(ref GenericPickupController.CreatePickupInfo pickupInfo, ref bool shouldSpawn)
         {
+            if (Storage.Garbage.Equals(pickupInfo.prefabOverride)) 
+            {
+                pickupInfo.prefabOverride = null;
+                return false;
+            }
 
             if (!Storage.EnabledInBazaar.Value && BazaarController.instance != null)
             {

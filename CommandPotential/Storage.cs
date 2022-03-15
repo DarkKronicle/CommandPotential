@@ -23,11 +23,22 @@ namespace CommandPotential
         public static WeightedSelection<RoR2.PickupIndex> Equipment = null;
         public static WeightedSelection<RoR2.PickupIndex> LunarEquipment = null;
         public static GameObject Prefab = null;
+        public static GameObject Garbage = null;
+
+
+        // Based off of
+        // https://github.com/FunkFrog/ShareSuite/blob/master/ShareSuite/ItemSharingHooks.cs#L19-L23
+        // GPL-v3
+        public static readonly List<CostTypeIndex> PrinterObjects = new List<CostTypeIndex>
+        {
+            CostTypeIndex.WhiteItem, CostTypeIndex.GreenItem, CostTypeIndex.RedItem, CostTypeIndex.BossItem, CostTypeIndex.LunarItemOrEquipment
+        };
 
 
         public static ConfigEntry<bool> OverrideCommand;
         public static ConfigEntry<bool> EnabledInBazaar;
         public static ConfigEntry<bool> SpawnMultiShops;
+        public static ConfigEntry<bool> PrintersOnlyDropOne;
 
         public static ConfigEntry<string> Tier1OptionsConfig;
         public static ConfigEntry<string> Tier2OptionsConfig;
@@ -123,6 +134,7 @@ namespace CommandPotential
             Equipment = CreateSelection(run.availableEquipmentDropList);
             LunarEquipment = CreateSelection(run.availableLunarEquipmentDropList);
             Prefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/OptionPickup");
+            Garbage = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGolem");
         }
 
         public static WeightedSelection<RoR2.PickupIndex> CreateSelection(List<PickupIndex> arr)
