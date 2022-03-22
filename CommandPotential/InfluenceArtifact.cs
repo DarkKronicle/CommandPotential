@@ -60,6 +60,11 @@ namespace CommandPotential
 
         public static bool InfluenceDroplet(ref GenericPickupController.CreatePickupInfo pickupInfo, ref bool shouldSpawn)
         {
+            if (!Storage.OverrideCommand.Value && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.Command.artifactIndex) && RunArtifactManager.instance.IsArtifactEnabled(Artifact.artifactIndex))
+            {
+                // Command and this artifact should rely on command
+                return false;
+            }
             if (Storage.Garbage.Equals(pickupInfo.prefabOverride)) 
             {
                 pickupInfo.prefabOverride = null;
@@ -83,10 +88,6 @@ namespace CommandPotential
                 return false;
             }
 
-            Xoroshiro128Plus rng = new Xoroshiro128Plus((ulong)Run.instance.stageRng.nextUint);
-            ItemTier tier = pickupDef.itemTier;
-            WeightedSelection<RoR2.PickupIndex> list = ItemUtil.GetItemsFromIndex(pickupIndex);
-
             int amount = ItemUtil.GetAmountFromIndex(pickupIndex);
 
             if (amount <= 1)
@@ -95,9 +96,18 @@ namespace CommandPotential
             }
             if (amount > 1000)
             {
-                CommandArtifactManager.OnDropletHitGroundServer(ref pickupInfo, ref shouldSpawn);
+                // Spawn command object
+                GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(CommandArtifactManager.commandCubePrefab, pickupInfo.position, pickupInfo.rotation);
+			    gameObject.GetComponent<PickupIndexNetworker>().NetworkpickupIndex = pickupIndex;
+			    gameObject.GetComponent<PickupPickerController>().SetOptionsFromPickupForCommandArtifact(pickupIndex);
+			    UnityEngine.Networking.NetworkServer.Spawn(gameObject);
+			    shouldSpawn = false;
                 return true;
             }
+
+            Xoroshiro128Plus rng = new Xoroshiro128Plus((ulong)Run.instance.stageRng.nextUint);
+            ItemTier tier = pickupDef.itemTier;
+            WeightedSelection<RoR2.PickupIndex> list = ItemUtil.GetItemsFromIndex(pickupIndex);
             amount = Math.Min(amount, list.Count);
 
             PickupIndex tierIndex = RoR2.PickupCatalog.FindPickupIndex(tier);

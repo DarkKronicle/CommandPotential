@@ -17,7 +17,7 @@ namespace CommandPotential
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "DarkKronicle";
         public const string PluginName = "CommandPotential";
-        public const string PluginVersion = "1.4.0";
+        public const string PluginVersion = "1.4.1";
 
 
         public void Awake()

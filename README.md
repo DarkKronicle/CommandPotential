@@ -10,6 +10,11 @@ Issues? Go to the [Issue Tracker](https://github.com/DarkKronicle/CommandPotenti
 
 ## Changelog
 
+**1.4.1**
+
+* Fixing crash when specifying command items
+* Fixing softlock in artifact trial
+
 **1.4.0**
 
 * Printers do not summon void potentials
